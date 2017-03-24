@@ -8,55 +8,70 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="com.hncgc1990.rxjavademo.operator.transformOperator.TransformMainActivity">
+    tools:context="com.hncgc1990.rxjavademo.operator.filterOperator.FilterMainActivity">
 
 
-    <Button
-        android:id="@+id/btn_map"
-        android:layout_width="wrap_content"
+
+    <EditText
+        android:id="@+id/et_search"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="map操作符"/>
-
-    <Button
-        android:id="@+id/btn_flatmap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="flatmap操作符"/>
-
-
-    <Button
-        android:id="@+id/btn_concatmap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="concatmap操作符"/>
-
-
-    <Button
-        android:id="@+id/btn_buffer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="buffer操作符"/>
-
-
-    <Button
-        android:id="@+id/btn_window"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="window操作符"/>
-
-    <Button
-        android:id="@+id/btn_groupby"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="groupby操作符"/>
+        android:hint="输入关键字"/>
 
 
 
     <Button
-        android:id="@+id/btn_scan"
+        android:id="@+id/btn_debounce"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="scan操作符"/>
+        android:text="debounce操作符"/>
+
+
+
+    <Button
+        android:id="@+id/btn_throttleWithTimeout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="throttleWithTimeout操作符"/>
+
+
+    <Button
+        android:id="@+id/btn_distinct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="distinct操作符"/>
+    <Button
+        android:id="@+id/btn_distinctUtilChange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="distinctUtilChange操作符"/>
+
+
+    <Button
+        android:id="@+id/btn_elementAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="elementAt操作符"/>
+
+    <Button
+        android:id="@+id/btn_elementAtOrDefault"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="elementAtOrDefault操作符"/>
+
+
+    <Button
+        android:id="@+id/btn_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="filter操作符"/>
+
+
+    <Button
+        android:id="@+id/btn_first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="first操作符"/>
 
 
 

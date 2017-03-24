@@ -44,6 +44,8 @@ public class TransformMainActivity extends AppCompatActivity {
     Button btnGroupby;
     @BindView(R.id.btn_scan)
     Button btnScan;
+    @BindView(R.id.btn_window)
+    Button btnWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +109,12 @@ public class TransformMainActivity extends AppCompatActivity {
             }
         });
 
-
+        RxView.clicks(btnWindow).subscribe(new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                doWindow();
+            }
+        });
     }
 
 
@@ -336,38 +343,54 @@ public class TransformMainActivity extends AppCompatActivity {
 
     private void doScan() {
 
-        Observable.just(1,2,3,4,5).scan(new BiFunction<Integer, Integer, Integer>() {
+        Observable.just(1, 2, 3, 4, 5).scan(new BiFunction<Integer, Integer, Integer>() {
             @Override
             public Integer apply(Integer sum, Integer current) throws Exception {
 
-                Logger.d(sum+"______"+current);
+                Logger.d(sum + "______" + current);
 
-                return sum*current;
+                return sum * current;
             }
         }).subscribe(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) throws Exception {
-                Logger.d(integer+"______结果");
+                Logger.d(integer + "______结果");
             }
         });
 
 
-        Observable.just(1,2,3,4,5).scan(8,new BiFunction<Integer, Integer, Integer>() {
+        Observable.just(1, 2, 3, 4, 5).scan(8, new BiFunction<Integer, Integer, Integer>() {
             @Override
             public Integer apply(Integer sum, Integer current) throws Exception {
 
-                Logger.d(sum+"______"+current);
+                Logger.d(sum + "______" + current);
 
-                return sum+current;
+                return sum + current;
             }
         }).subscribe(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) throws Exception {
-                Logger.d(integer+"______结果");
+                Logger.d(integer + "______结果");
             }
         });
 
 
     }
 
+
+
+
+    private void doWindow() {
+        Observable.interval(2,TimeUnit.SECONDS).window(2).subscribe(new Consumer<Observable<Long>>() {
+            @Override
+            public void accept(Observable<Long> longObservable) throws Exception {
+
+            }
+        });
+
+
+
+
+
+    }
 }

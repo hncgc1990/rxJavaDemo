@@ -10,15 +10,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".BufferActivity" />
         <activity android:name=".FlatMapActivity" />
-        <activity android:name=".operator.createOperator.CreateOperatorMainActivity">
-
-        </activity>
+        <activity android:name=".operator.createOperator.CreateOperatorMainActivity"></activity>
         <activity android:name=".operator.transformOperator.TransformMainActivity">
-
-
+        </activity>
+        <activity android:name=".operator.filterOperator.FilterMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

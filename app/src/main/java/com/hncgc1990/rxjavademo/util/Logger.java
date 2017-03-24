@@ -11,4 +11,7 @@ public class Logger {
     public static void  d(String message){
         Log.d("chen",message);
     }
+    public static void  e (String message){
+        Log.e("chen",message);
+    }
 }
