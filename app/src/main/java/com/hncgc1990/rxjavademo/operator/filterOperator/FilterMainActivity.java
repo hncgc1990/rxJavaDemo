@@ -15,6 +15,8 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.CompletableObserver;
+import io.reactivex.MaybeObserver;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.SingleObserver;
@@ -44,6 +46,21 @@ public class FilterMainActivity extends AppCompatActivity {
     Button btnFilter;
     @BindView(R.id.btn_first)
     Button btnFirst;
+    @BindView(R.id.btn_single)
+    Button btnSingle;
+    @BindView(R.id.btn_ignoreElement)
+    Button btnIgnoreElement;
+    @BindView(R.id.btn_last)
+    Button btnLast;
+    @BindView(R.id.btn_sample)
+    Button btnSample;
+    @BindView(R.id.btn_skip)
+    Button btnSkip;
+    @BindView(R.id.btn_skiplast)
+    Button btnSkiplast;
+    @BindView(R.id.btn_take)
+    Button btnTake;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,6 +193,64 @@ public class FilterMainActivity extends AppCompatActivity {
             }
         });
 
+
+        RxView.clicks(btnSingle).subscribe(new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                dosingle();
+            }
+        });
+
+        RxView.clicks(btnIgnoreElement).subscribe(new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                doIgnoreElement();
+            }
+        });
+
+        RxView.clicks(btnLast).subscribe(new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                doLast();
+            }
+        });
+
+
+        RxView.clicks(btnSample).map(new Function<Object, Integer>() {
+            @Override
+            public Integer apply(Object o) throws Exception {
+
+                Logger.d("点击了一次");
+                return 1;
+            }
+        }).sample(5,TimeUnit.SECONDS).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer o) throws Exception {
+                Logger.d("sample le "+o);
+            }
+        });
+
+        RxView.clicks(btnSkip).subscribe(new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                doSkip();
+            }
+        });
+
+        RxView.clicks(btnSkiplast).subscribe(new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                doSkipLast();
+            }
+        });
+
+        RxView.clicks(btnTake).subscribe(new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                doTake();
+            }
+        });
+
     }
 
 
@@ -285,7 +360,7 @@ public class FilterMainActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(Object value) {
-                Logger.d("默认的值"+value);
+                Logger.d("默认的值" + value);
             }
 
             @Override
@@ -295,10 +370,10 @@ public class FilterMainActivity extends AppCompatActivity {
         });
 
 
-        Observable.fromArray(2,2,3,4,1,1).filter(new Predicate<Integer>() {//此处并不是发送第一项数据，而是发送所有的通过的数据
+        Observable.fromArray(2, 2, 3, 4, 1, 1).filter(new Predicate<Integer>() {//此处并不是发送第一项数据，而是发送所有的通过的数据
             @Override
             public boolean test(Integer integer) throws Exception {
-                if(integer<3){
+                if (integer < 3) {
                     return true;
                 }
 
@@ -307,10 +382,204 @@ public class FilterMainActivity extends AppCompatActivity {
         }).subscribe(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) throws Exception {
-                    Logger.d("first后的值"+integer);
+                Logger.d("first后的值" + integer);
             }
         });
 
     }
 
+
+    private void dosingle() {
+
+        Observable.just(2, 4).single(1).subscribe(new SingleObserver<Object>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(Object value) {
+                Logger.d("singleOrError" + value);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+
+            }
+        });
+
+
+        Observable.just("2", "4").singleOrError().subscribe(new SingleObserver<Object>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(Object value) {
+                Logger.d("singleOrError" + value);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+
+            }
+        });
+
+
+        Observable.empty().singleElement().subscribe(new MaybeObserver<Object>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(Object value) {
+                Logger.d("singleElement" + value);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
+
+    private void doIgnoreElement() {
+
+        Observable.just(1, 2, 3, 4, 45).ignoreElements().subscribe(new CompletableObserver() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onComplete() {
+                Logger.d("doIgnoreElement_onComplete");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Logger.d("onError_onComplete");
+            }
+        });
+
+    }
+
+
+    private void doLast() {
+        Observable.just(1, 2, 3, 4, 5, 6, 8).last(2).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Logger.d("last" + integer);
+            }
+        });
+
+        Observable.empty().lastOrError().subscribe(new SingleObserver<Object>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(Object value) {
+                Logger.d("lastOrError__onSuccess");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Logger.d("lastOrError" + e.toString());
+            }
+        });
+
+        Observable.just(1, 2).lastElement().subscribe(new MaybeObserver<Integer>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(Integer value) {
+                Logger.d("lastElement__onSuccess_____" + value);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Logger.d("lastElement__onError" + e.toString());
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+
+    }
+
+
+
+
+
+    private void doSkip() {
+
+        Observable.just(1, 2, 3, 4, 5, 6, 7).skip(3).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Logger.d("跳过的值" + integer);
+            }
+        });
+
+
+        Observable.interval(1, TimeUnit.SECONDS).skip(5, TimeUnit.SECONDS).subscribe(new Consumer<Long>() {
+            @Override
+            public void accept(Long aLong) throws Exception {
+                Logger.d("跳过的时间的值" + aLong);
+            }
+        });
+
+    }
+
+
+    private void doSkipLast() {
+
+        Observable.just(1, 2, 3, 3, 3, 3, 3).skipLast(2).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Logger.d("skipLast" + integer);
+            }
+        });
+
+
+    }
+
+    private void doTake() {
+
+        Observable.just(1,2,3,4).take(3).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Logger.d("take______" + integer);
+            }
+        });
+
+
+        Observable.just(1,2,3,4,5,6).takeLast(2).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Logger.d("takeLast______" + integer);
+
+            }
+        });
+
+
+
+
+    }
 }
