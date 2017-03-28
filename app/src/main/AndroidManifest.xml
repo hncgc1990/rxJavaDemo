@@ -13,15 +13,19 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".BufferActivity" />
         <activity android:name=".FlatMapActivity" />
-        <activity android:name=".operator.createOperator.CreateOperatorMainActivity"></activity>
-        <activity android:name=".operator.transformOperator.TransformMainActivity">
-        </activity>
-        <activity android:name=".operator.filterOperator.FilterMainActivity">
+        <activity android:name=".operator.createOperator.CreateOperatorMainActivity" />
+        <activity android:name=".operator.transformOperator.TransformMainActivity" />
+        <activity android:name=".operator.filterOperator.FilterMainActivity"></activity>
+        <activity android:name=".operator.combineOperator.CombineActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".operator.combineOperator.CombineLatestActivity">
+
+
 
         </activity>
     </application>

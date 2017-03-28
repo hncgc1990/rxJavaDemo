@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import io.reactivex.CompletableObserver;
 import io.reactivex.MaybeObserver;
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -60,6 +61,10 @@ public class FilterMainActivity extends AppCompatActivity {
     Button btnSkiplast;
     @BindView(R.id.btn_take)
     Button btnTake;
+    @BindView(R.id.btn_timeout)
+    Button btnTimeout;
+    @BindView(R.id.btn_throttleFirst)
+    Button btnThrottleFirst;
 
 
     @Override
@@ -223,10 +228,10 @@ public class FilterMainActivity extends AppCompatActivity {
                 Logger.d("点击了一次");
                 return 1;
             }
-        }).sample(5,TimeUnit.SECONDS).subscribe(new Consumer<Integer>() {
+        }).sample(5, TimeUnit.SECONDS).subscribe(new Consumer<Integer>() {
             @Override
             public void accept(Integer o) throws Exception {
-                Logger.d("sample le "+o);
+                Logger.d("sample le " + o);
             }
         });
 
@@ -250,10 +255,45 @@ public class FilterMainActivity extends AppCompatActivity {
                 doTake();
             }
         });
+        RxView.clicks(btnTimeout)/**.timeout(200,TimeUnit.MILLISECONDS,Observable.just(1,2))**/.subscribe(new Observer<Object>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Object value) {
+                Logger.d("onNext" + value);
+                doTimeOut();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Logger.e(e.toString());
+            }
+
+            @Override
+            public void onComplete() {
+                Logger.d("onComplete");
+            }
+        });
+
+
+        RxView.clicks(btnThrottleFirst).map(new Function<Object, Integer>() {
+            @Override
+            public Integer apply(Object o) throws Exception {
+                Logger.d("点击了一次");
+                return 1;
+            }
+        }).throttleFirst(2000,TimeUnit.MILLISECONDS).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Logger.d("有效点击了一次");
+            }
+        });
+
 
     }
-
-
 
 
     private void doDistinct() {
@@ -525,9 +565,6 @@ public class FilterMainActivity extends AppCompatActivity {
     }
 
 
-
-
-
     private void doSkip() {
 
         Observable.just(1, 2, 3, 4, 5, 6, 7).skip(3).subscribe(new Consumer<Integer>() {
@@ -562,7 +599,7 @@ public class FilterMainActivity extends AppCompatActivity {
 
     private void doTake() {
 
-        Observable.just(1,2,3,4).take(3).subscribe(new Consumer<Integer>() {
+        Observable.just(1, 2, 3, 4).take(3).subscribe(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) throws Exception {
                 Logger.d("take______" + integer);
@@ -570,7 +607,7 @@ public class FilterMainActivity extends AppCompatActivity {
         });
 
 
-        Observable.just(1,2,3,4,5,6).takeLast(2).subscribe(new Consumer<Integer>() {
+        Observable.just(1, 2, 3, 4, 5, 6).takeLast(2).subscribe(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) throws Exception {
                 Logger.d("takeLast______" + integer);
@@ -579,7 +616,51 @@ public class FilterMainActivity extends AppCompatActivity {
         });
 
 
+    }
 
 
+    private void doTimeOut() {
+
+
+        Observable.just(1, 2, 3, 54).map(new Function<Integer, Integer>() {
+            @Override
+            public Integer apply(Integer integer) throws Exception {
+//                if(integer==2){
+//                    Thread.sleep(2000);
+//                }
+                Logger.d("map___" + integer);
+                return integer;
+            }
+        }).timeout(new Function<Integer, ObservableSource<String>>() {
+            @Override
+            public ObservableSource<String> apply(Integer o) throws Exception {
+
+
+                Logger.d("apply___" + o);
+
+                return Observable.just(o + "_____").delay(2, TimeUnit.SECONDS);
+            }
+        }).subscribe(new Observer<Object>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Object value) {
+                Logger.d("onNext" + value);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Logger.d(e.toString());
+            }
+
+            @Override
+            public void onComplete() {
+                Logger.d("onComplete");
+
+            }
+        });
     }
 }

@@ -128,5 +128,18 @@
         android:layout_height="wrap_content"
         android:text="take操作符"/>
 
+    <Button
+        android:id="@+id/btn_timeout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="timeout操作符"/>
+
+
+    <Button
+        android:id="@+id/btn_throttleFirst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="throttleFirst操作符"/>
+
 </LinearLayout>
 </ScrollView>
