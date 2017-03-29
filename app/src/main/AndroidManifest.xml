@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hncgc1990.rxjavademo">
+    package="com.hncgc1990.rxjavademo" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -9,24 +9,24 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity android:name=".MainActivity" />
         <activity android:name=".BufferActivity" />
         <activity android:name=".FlatMapActivity" />
         <activity android:name=".operator.createOperator.CreateOperatorMainActivity" />
         <activity android:name=".operator.transformOperator.TransformMainActivity" />
-        <activity android:name=".operator.filterOperator.FilterMainActivity"></activity>
-        <activity android:name=".operator.combineOperator.CombineActivity">
+        <activity android:name=".operator.filterOperator.FilterMainActivity" />
+        <activity android:name=".operator.combineOperator.CombineActivity" >
+
+        </activity>
+        <activity android:name=".operator.combineOperator.CombineLatestActivity" >
+        </activity>
+        <activity android:name=".operator.assistantOperator.AssistantMainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".operator.combineOperator.CombineLatestActivity">
-
-
-
         </activity>
     </application>
 

@@ -12,6 +12,8 @@ import com.jakewharton.rxbinding2.view.RxView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -19,6 +21,7 @@ import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Function3;
+import io.reactivex.schedulers.Schedulers;
 
 public class CombineActivity extends AppCompatActivity {
 
@@ -241,14 +244,58 @@ public class CombineActivity extends AppCompatActivity {
         Observable.switchOnNext(new Observable<ObservableSource<?>>() {
             @Override
             protected void subscribeActual(Observer<? super ObservableSource<?>> observer) {
+                for (int i = 0; i < 10; i++) {
+                    observer.onNext(craete(i));
+                    try {
+                        Thread.sleep(1500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                observer.onComplete();
+            }
+        }).subscribe(new Observer<Object>() {
+            @Override
+            public void onSubscribe(Disposable d) {
 
             }
-        }).subscribe(new Consumer<Object>() {
-            @Override
-            public void accept(Object o) throws Exception {
 
+            @Override
+            public void onNext(Object value) {
+                Logger.d("onNext____"+value);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Logger.e("onError___"+e.toString());
+            }
+
+            @Override
+            public void onComplete() {
+                Logger.d("onComplete");
             }
         });
+
+    }
+
+
+    private static Observable<String> craete(final int index) {
+
+
+        return Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(ObservableEmitter<String> subscriber) throws Exception {
+                for (int i = 0; i < 5; i++) {
+                    subscriber.onNext("index: " + index + ", i: " + i);
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        subscriber.onComplete();
+                    }
+                }
+                subscriber.onComplete();
+            }
+        }).subscribeOn(Schedulers.newThread());
 
     }
 }
