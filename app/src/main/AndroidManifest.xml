@@ -19,11 +19,13 @@
         <activity android:name=".operator.combineOperator.CombineActivity" />
         <activity android:name=".operator.combineOperator.CombineLatestActivity" />
         <activity android:name=".operator.assistantOperator.AssistantMainActivity" />
-        <activity android:name=".operator.conditionOperator.ConditionMainActivity"></activity>
-        <activity android:name=".operator.booleanOperator.BooleanMainActivity">
+        <activity android:name=".operator.conditionOperator.ConditionMainActivity" />
+        <activity android:name=".operator.booleanOperator.BooleanMainActivity" />
+        <activity android:name=".operator.mathOperator.MathMainActivity"></activity>
+        <activity android:name=".operator.connectOperator.ConnectMainActivity">
 
         </activity>
-        <activity android:name=".operator.mathOperator.MathMainActivity">
+        <activity android:name=".operator.blockOperator.BlockMainActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
