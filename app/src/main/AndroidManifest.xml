@@ -16,18 +16,21 @@
         <activity android:name=".operator.createOperator.CreateOperatorMainActivity" />
         <activity android:name=".operator.transformOperator.TransformMainActivity" />
         <activity android:name=".operator.filterOperator.FilterMainActivity" />
-        <activity android:name=".operator.combineOperator.CombineActivity"></activity>
-        <activity android:name=".operator.combineOperator.CombineLatestActivity"></activity>
-        <activity android:name=".operator.assistantOperator.AssistantMainActivity">
+        <activity android:name=".operator.combineOperator.CombineActivity" />
+        <activity android:name=".operator.combineOperator.CombineLatestActivity" />
+        <activity android:name=".operator.assistantOperator.AssistantMainActivity"></activity>
+        <activity android:name=".operator.conditionOperator.ConditionMainActivity">
 
         </activity>
-        <activity android:name=".operator.conditionOperator.ConditionMainActivity">
+        <activity android:name=".operator.booleanOperator.BooleanMainActivity">
+
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 
