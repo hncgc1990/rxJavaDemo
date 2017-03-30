@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context="com.hncgc1990.rxjavademo.operator.conditionOperator.ConditionMainActivity">
+
+
+
+    <Button
+        android:id="@+id/btn_amb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="amb操作符"
+        />
+
+    <Button
+        android:id="@+id/btn_defaultifempty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="defaultifempty操作符"
+        />
+
+    <Button
+        android:id="@+id/btn_skipwhile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="skipwhile操作符"
+        />
+
+    <Button
+        android:id="@+id/btn_skipuntil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="skipuntil操作符"
+        />
+
+    <Button
+        android:id="@+id/btn_takeuntil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="takeuntil操作符"
+        />
+
+    <Button
+        android:id="@+id/btn_takewhile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="takewhile操作符"
+        />
+
+
+
+</LinearLayout>
