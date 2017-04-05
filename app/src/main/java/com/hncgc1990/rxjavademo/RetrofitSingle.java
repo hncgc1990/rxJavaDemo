@@ -25,9 +25,9 @@ public class RetrofitSingle {
 
                 retrofit = new Retrofit.Builder()
                         .client(client)
-                        .baseUrl("https://guangzhouudesk.udesk.cn/")
+                        .baseUrl("http://gank.io/api/")
                         .addConverterFactory(GsonConverterFactory.create())
-                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())//使用rxjava返回
                         .build();
 
             }

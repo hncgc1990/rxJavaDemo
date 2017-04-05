@@ -1,9 +1,11 @@
-package com.hncgc1990.rxjavademo;
+package com.hncgc1990.rxjavademo.retrofit;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
+import com.hncgc1990.rxjavademo.R;
+import com.hncgc1990.rxjavademo.RetrofitSingle;
 import com.hncgc1990.rxjavademo.data.Category;
 import com.hncgc1990.rxjavademo.data.CategoryDetail;
 import com.hncgc1990.rxjavademo.data.Content;

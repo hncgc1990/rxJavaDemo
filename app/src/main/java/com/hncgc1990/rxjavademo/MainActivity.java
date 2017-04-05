@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
+import com.hncgc1990.rxjavademo.retrofit.FlatMapActivity;
 import com.hncgc1990.rxjavademo.util.ActivityUtil;
 import com.jakewharton.rxbinding2.view.RxView;
 

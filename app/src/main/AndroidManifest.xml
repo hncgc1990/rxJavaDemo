@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" />
         <activity android:name=".BufferActivity" />
-        <activity android:name=".FlatMapActivity" />
+        <activity android:name=".retrofit.FlatMapActivity" />
         <activity android:name=".operator.createOperator.CreateOperatorMainActivity" />
         <activity android:name=".operator.transformOperator.TransformMainActivity" />
         <activity android:name=".operator.filterOperator.FilterMainActivity" />
@@ -28,12 +28,18 @@
         </activity>
         <activity android:name=".operator.errorOperator.ErrorMainActivity">
 
+
+        </activity>
+
+
+
+        <activity android:name=".retrofit.RetrofitMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+            </activity>
     </application>
 
 </manifest>
