@@ -1,5 +1,6 @@
 package com.hncgc1990.rxjavademo.retrofit;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Button;
@@ -36,6 +37,8 @@ public class RetrofitMainActivity extends FragmentActivity implements ItemFragme
     Button btnRequest;
 
     ItemFragment fragment;
+
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,18 +85,26 @@ public class RetrofitMainActivity extends FragmentActivity implements ItemFragme
                     @Override
                     public void accept(Disposable disposable) throws Exception {
                         //在这里进行弹窗
+                        dialog=new ProgressDialog(RetrofitMainActivity.this);
+                        dialog.show();
                     }
                 })
                 .doOnComplete(new Action() {
                     @Override
                     public void run() throws Exception {
                         //在这里进行取消弹窗
+                        if(dialog!=null &&dialog.isShowing()){
+                            dialog.dismiss();
+                        }
                     }
                 })
                 .doOnError(new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         //在这里进行取消弹窗
+                        if(dialog!=null &&dialog.isShowing()){
+                            dialog.dismiss();
+                        }
                     }
                 })
                 .subscribe(new Observer<PostData<List<Result>>>() {

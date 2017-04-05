@@ -31,15 +31,18 @@
 
         </activity>
 
-
-
         <activity android:name=".retrofit.RetrofitMainActivity">
+
+            </activity>
+        <activity android:name=".rxlifecycle.RxLifecycleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            </activity>
+        </activity>
+
+
     </application>
 
 </manifest>
