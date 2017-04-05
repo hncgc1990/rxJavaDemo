@@ -21,18 +21,18 @@
         <activity android:name=".operator.assistantOperator.AssistantMainActivity" />
         <activity android:name=".operator.conditionOperator.ConditionMainActivity" />
         <activity android:name=".operator.booleanOperator.BooleanMainActivity" />
-        <activity android:name=".operator.mathOperator.MathMainActivity"></activity>
-        <activity android:name=".operator.connectOperator.ConnectMainActivity">
+        <activity android:name=".operator.mathOperator.MathMainActivity" />
+        <activity android:name=".operator.connectOperator.ConnectMainActivity"></activity>
+        <activity android:name=".operator.blockOperator.BlockMainActivity">
 
         </activity>
-        <activity android:name=".operator.blockOperator.BlockMainActivity">
+        <activity android:name=".operator.errorOperator.ErrorMainActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
     </application>
 
