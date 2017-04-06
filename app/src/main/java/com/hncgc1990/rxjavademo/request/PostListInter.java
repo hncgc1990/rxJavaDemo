@@ -14,6 +14,6 @@ import retrofit2.http.GET;
 public interface PostListInter {
 
 
-    @GET("data/Android/10/1")
+    @GET("data/Android/13/1")
     public Observable<PostData<List<Result>>> getPostList();
 }

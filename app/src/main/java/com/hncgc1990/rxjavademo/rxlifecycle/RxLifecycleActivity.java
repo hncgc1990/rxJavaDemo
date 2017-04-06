@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.hncgc1990.rxjavademo.util.Logger;
-import com.trello.rxlifecycle2.android.ActivityEvent;
-import com.trello.rxlifecycle2.android.RxLifecycleAndroid;
 import com.trello.rxlifecycle2.components.RxActivity;
 
 import java.util.concurrent.TimeUnit;
@@ -41,19 +39,19 @@ public class RxLifecycleActivity extends RxActivity {
                 });*/
 
 
-        Observable.interval(2, TimeUnit.SECONDS)
-                .doOnDispose(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        Logger.d("取消了訂閱");
-                    }
-                }).compose(this.<Long>bindToLifecycle())
-                .subscribe(new Consumer<Long>() {
-                    @Override
-                    public void accept(Long aLong) throws Exception {
-                        Logger.d("正在發射事件:_____"+aLong);
-                    }
-                });
+//        Observable.interval(2, TimeUnit.SECONDS)
+//                .doOnDispose(new Action() {
+//                    @Override
+//                    public void run() throws Exception {
+//                        Logger.d("取消了訂閱");
+//                    }
+//                }).compose(this.<Long>bindToLifecycle())
+//                .subscribe(new Consumer<Long>() {
+//                    @Override
+//                    public void accept(Long aLong) throws Exception {
+//                        Logger.d("正在發射事件:_____"+aLong);
+//                    }
+//                });
 
     }
 
@@ -67,12 +65,28 @@ public class RxLifecycleActivity extends RxActivity {
     protected void onPause() {
         super.onPause();
         Logger.d("onPause");
+
+        Observable.interval(2, TimeUnit.SECONDS)
+                .doOnDispose(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        Logger.d("取消了訂閱");
+                    }
+                }).compose(this.<Long>bindToLifecycle())
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        Logger.d("正在發射事件:_____"+aLong);
+                    }
+                });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Logger.d("onResume");
+
+
     }
 
     @Override

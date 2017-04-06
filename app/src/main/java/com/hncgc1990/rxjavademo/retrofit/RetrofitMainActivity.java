@@ -1,8 +1,6 @@
 package com.hncgc1990.rxjavademo.retrofit;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -13,24 +11,22 @@ import com.hncgc1990.rxjavademo.data.Result;
 import com.hncgc1990.rxjavademo.request.PostListInter;
 import com.hncgc1990.rxjavademo.util.Logger;
 import com.jakewharton.rxbinding2.view.RxView;
+import com.trello.rxlifecycle2.android.ActivityEvent;
+import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 
 /**
  * Created by Administrator on 2017/4/5.
  */
-public class RetrofitMainActivity extends FragmentActivity implements ItemFragment.OnListFragmentInteractionListener {
+public class RetrofitMainActivity extends RxFragmentActivity implements ItemFragment.OnListFragmentInteractionListener {
 
 
     @BindView(R.id.btn_request)
@@ -38,7 +34,7 @@ public class RetrofitMainActivity extends FragmentActivity implements ItemFragme
 
     ItemFragment fragment;
 
-    ProgressDialog dialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,55 +58,23 @@ public class RetrofitMainActivity extends FragmentActivity implements ItemFragme
 
     }
 
+
+    Disposable disposable;
+
     private void getListData() {
 
         Retrofit instance = RetrofitSingle.getInstance();
         PostListInter postListInter = instance.create(PostListInter.class);
         postListInter
                 .getPostList()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(new Function<PostData<List<Result>>, PostData<List<Result>>>() {
-                    @Override
-                    public PostData apply(PostData postData) throws Exception {
-
-                        if(!postData.getError()){
-                            return postData;
-                        }else{
-                          throw new RuntimeException("wrong response");
-                        }
-                    }
-                })
-                .doOnSubscribe(new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        //在这里进行弹窗
-                        dialog=new ProgressDialog(RetrofitMainActivity.this);
-                        dialog.show();
-                    }
-                })
-                .doOnComplete(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        //在这里进行取消弹窗
-                        if(dialog!=null &&dialog.isShowing()){
-                            dialog.dismiss();
-                        }
-                    }
-                })
-                .doOnError(new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        //在这里进行取消弹窗
-                        if(dialog!=null &&dialog.isShowing()){
-                            dialog.dismiss();
-                        }
-                    }
-                })
+                .compose(this.<PostData<List<Result>>>bindUntilEvent(ActivityEvent.DESTROY))
+                .compose(SchedulerHelper.<PostData<List<Result>>>applySchedulers())
+                .compose(ProtocolHelper.applyProtocolHandler())
+                .compose(new DialogHelper(RetrofitMainActivity.this).<PostData<List<Result>>>applyDialog())
                 .subscribe(new Observer<PostData<List<Result>>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        disposable=d;
                     }
 
                     @Override
@@ -127,7 +91,7 @@ public class RetrofitMainActivity extends FragmentActivity implements ItemFragme
 
                     @Override
                     public void onComplete() {
-
+                        Logger.d("onComplete");
                     }
                 });
 
@@ -136,6 +100,42 @@ public class RetrofitMainActivity extends FragmentActivity implements ItemFragme
 
     @Override
     public void onListFragmentInteraction(Result item) {
+
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Logger.d("onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Logger.d("onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Logger.d("onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Logger.d("onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(!disposable.isDisposed()){
+            disposable.dispose();
+            Logger.d("disposable is called");
+        }
+        super.onDestroy();
+        Logger.d("onDestroy");
 
     }
 }
