@@ -17,9 +17,7 @@
         <activity android:name=".operator.transformOperator.TransformMainActivity" />
         <activity android:name=".operator.filterOperator.FilterMainActivity" />
         <activity android:name=".operator.combineOperator.CombineActivity" />
-        <activity android:name=".operator.combineOperator.CombineLatestActivity">
-
-        </activity>
+        <activity android:name=".operator.combineOperator.CombineLatestActivity"></activity>
         <activity android:name=".operator.assistantOperator.AssistantMainActivity" />
         <activity android:name=".operator.conditionOperator.ConditionMainActivity" />
         <activity android:name=".operator.booleanOperator.BooleanMainActivity" />
@@ -27,11 +25,13 @@
         <activity android:name=".operator.connectOperator.ConnectMainActivity" />
         <activity android:name=".operator.blockOperator.BlockMainActivity" />
         <activity android:name=".operator.errorOperator.ErrorMainActivity" />
-        <activity android:name=".retrofit.RetrofitMainActivity"></activity>
+        <activity android:name=".retrofit.RetrofitMainActivity" />
         <activity android:name=".rxlifecycle.RxLifecycleActivity" />
         <activity android:name=".rxrelay.RerelayMainActivity" />
         <activity android:name=".rxpreference.RxPreferenceActivity">
 
+        </activity>
+        <activity android:name=".subject.SubjectMainActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
