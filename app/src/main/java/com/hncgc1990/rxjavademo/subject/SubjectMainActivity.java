@@ -17,6 +17,7 @@ import io.reactivex.subjects.AsyncSubject;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.ReplaySubject;
+import io.reactivex.subjects.UnicastSubject;
 
 public class SubjectMainActivity extends AppCompatActivity {
 
@@ -28,6 +29,10 @@ public class SubjectMainActivity extends AppCompatActivity {
     Button btnPublishsubject;
     @BindView(R.id.btn_replaysubject)
     Button btnReplaysubject;
+    @BindView(R.id.btn_UnicastSubject)
+    Button btnUnicastSubject;
+    @BindView(R.id.btn_SerializedSubject)
+    Button btnSerializedSubject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,26 +72,37 @@ public class SubjectMainActivity extends AppCompatActivity {
                 doReplaysubject();
             }
         });
+        RxView.clicks(btnUnicastSubject).subscribe(new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                doUnicastSubject();
+            }
+        });
+
+        RxView.clicks(btnSerializedSubject).subscribe(new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                doSerializedSubject();
+            }
+        });
     }
 
 
 
-
     private void doAsyncSubject() {
-        AsyncSubject<Integer> asyncSubject = AsyncSubject.create(); //
+        AsyncSubject<Integer> asyncSubject = AsyncSubject.create(); //在执行onComplete方法之后,只输出了最后一个值.
+        asyncSubject.subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Logger.d("值:" + integer);
+            }
+        });
         asyncSubject.onNext(1);
         asyncSubject.onNext(2);
         asyncSubject.onNext(3);
         asyncSubject.onNext(4);
 
         asyncSubject.onComplete();
-
-        asyncSubject.subscribe(new Consumer<Integer>() {
-            @Override
-            public void accept(Integer integer) throws Exception {//在执行onComplete方法之后,只输出了最后一个值.
-                Logger.d("值:" + integer);
-            }
-        });
 
 
     }
@@ -174,10 +190,11 @@ public class SubjectMainActivity extends AppCompatActivity {
         publishSubject.onComplete();
 
     }
-    private void doReplaysubject() {
+
+    private void doReplaysubject() {//
 
 
-        ReplaySubject<Integer> replaySubject=ReplaySubject.create();
+        ReplaySubject<Integer> replaySubject = ReplaySubject.create();
         replaySubject.onNext(1);
         replaySubject.onNext(21);
         replaySubject.onNext(13);
@@ -185,8 +202,8 @@ public class SubjectMainActivity extends AppCompatActivity {
         replaySubject.subscribe(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) throws Exception {
-                    Logger.d("replay"+integer);
-             }
+                Logger.d("replay" + integer);
+            }
         });
 
         replaySubject.onNext(12);
@@ -195,6 +212,89 @@ public class SubjectMainActivity extends AppCompatActivity {
         replaySubject.onNext(18);
         replaySubject.onNext(18);
         replaySubject.onComplete();
+        replaySubject.subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Logger.d("replay2___" + integer);
+            }
+        });
+    }
+
+
+    private void doUnicastSubject() {
+
+        UnicastSubject<Integer> objectUnicastSubject = UnicastSubject.create();//只允许一个订阅者，订阅行为类似ReplaySubject
+
+        objectUnicastSubject.onNext(1);
+        objectUnicastSubject.onNext(2);
+        objectUnicastSubject.onNext(3);
+
+        objectUnicastSubject.subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Logger.d("unicast" + integer);
+            }
+        });
+
+        objectUnicastSubject.onNext(4);
+        objectUnicastSubject.onNext(5);
+        objectUnicastSubject.onNext(6);
+
+
+        objectUnicastSubject.onComplete();
+
+
+        objectUnicastSubject.subscribe(new Observer<Integer>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                Logger.d("onNext" + integer);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Logger.e(e.toString());
+            }
+
+            @Override
+            public void onComplete() {
+                Logger.d("oncomplete");
+            }
+        });
+
 
     }
+
+    int pos=0;
+
+    private void doSerializedSubject() {
+            final PublishSubject<Integer> publishSubject=PublishSubject.create();
+        publishSubject.subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+            Logger.d("==onNext==>value:" + pos +" ,threadId: "+ Thread.currentThread().getId());
+                pos++;
+            }
+        });
+
+
+
+
+
+        for (int i = 0; i < 15; i++) {
+            final int finalI = i;
+            new Thread() {
+                public void run() {
+                    publishSubject.onNext(finalI);
+                }
+            }.start();
+        }
+
+    }
+
+
 }
